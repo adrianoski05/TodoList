@@ -1,4 +1,5 @@
 //jshint esversion:6
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -12,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 mongoose.set('strictQuery', true);
-mongoose.connect("mongodb+srv://admin-adrianoski:test123@cluster0.9viwtre.mongodb.net/todolistDB");
+mongoose.connect(process.env.MONGO_URI);
 
 //Create the model for the docuemnents with MONGOOSE
 const itemsSchema = {
