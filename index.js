@@ -13,7 +13,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 mongoose.set('strictQuery', true);
-mongoose.connect(process.env.MONGO_URI);
+
+const connectDB = async()=> {
+  try{
+    const conn = mongoose.connect(process.env.MONGO_URI);
+    console.log("Mongoose correctly connected");
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
 
 //Create the model for the docuemnents with MONGOOSE
 const itemsSchema = {
@@ -155,7 +164,9 @@ let port = process.env.PORT;
 if (port == null || port ==''){
   port = 3000;
 }
+connectDB().then(() => {
 
-app.listen(port, function() {
-  console.log("Server started successfully");
+  app.listen(port, function() {
+    console.log("Server started successfully");
+  });
 });
